@@ -12,7 +12,7 @@
 
 ### Solution
 ##### Backend:
-Server based on Node.js and Express library. 3001 port. Records are stored in MongoDB. Uploaded images are accessed via direct link. Secure routes require validation with the Bearer token in the header's Authorization parameter.
+Server based on Node.js and Express library. 3001 port. Stored in MongoDB. Uploaded images are accessed via direct link. Secure routes require validation with the Bearer token in the header's Authorization parameter.
   
   How to run:
   At first, run Node.JS server:
