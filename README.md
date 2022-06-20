@@ -83,3 +83,7 @@ There is page on React. Protected routes are using the Bearer token in the heade
  - "/sign-in" - public. Displays the login form. The fields are validated.
 
  - "/sign-up" - public. Displays the registration form. The fields are validated. Upon successful registration, you are redirected to the login page.
+
+##### Technology:
+- API: node.js, mongodb, mongoose, joi, bcrypt, multer
+- Frontend: react
