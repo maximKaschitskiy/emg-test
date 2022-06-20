@@ -10,7 +10,7 @@
 К серверу должен быть реализовать endpoint запрос GET, который получает в ответ последний добавленный элемент из базы данных в виде json – текст и ссылка на картинку.
 
 
-### Решение
+### Solution
 ##### Backend:
 Server based on Node.js and Express library. 3001 port. Records are stored in MongoDB. Uploaded images are accessed via direct link. Secure routes require validation with the Bearer token in the header's Authorization parameter.
   
