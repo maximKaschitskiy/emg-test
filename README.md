@@ -14,10 +14,15 @@
 ##### Backend:
 Server based on Node.js and Express library. 3001 port. Records are stored in MongoDB. Uploaded images are accessed via direct link. Secure routes require validation with the Bearer token in the header's Authorization parameter.
   
-  Запуск:
+  How to run:
+  At first, run Node.JS server:
   
       npm run dev
-
+  
+  Then, run MongoDB daemon:
+  
+      mongod
+  
 ###### Routes:
   
   - GET "/cards" - public. Returns the last "card"-entry from the database. If the base is empty, the appropriate message is returned.
