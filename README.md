@@ -61,7 +61,7 @@ Server based on Node.js and Express library. 3001 port. Records are stored in Mo
 	
   - POST "/cards" - private. Takes FormData object containing two fields with string and a file. The image with the changed file name is saved in the "uploads" directory. The server shares images by direct route. Returns a JSON object with a description and the uploaded file link. Taked values ​​are validated for a uniqueness login field, the number and validity of characters, the size and format of the file.
   
-    Answer example:
+    Response example:
     
 	    {
           "descriptionFirst": "description",
