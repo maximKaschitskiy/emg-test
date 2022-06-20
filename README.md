@@ -9,66 +9,72 @@
 Кнопка Добавить сохраняет данные в базу данных.
 К серверу должен быть реализовать endpoint запрос GET, который получает в ответ последний добавленный элемент из базы данных в виде json – текст и ссылка на картинку.
 
+
 ### Решение
 ##### Backend:
-  Сервер на Node JS и библиотеке Express. 3001 порт. Записи хранятся в MongoDB. Доступ к загруженным изображениям осуществляется по прямой ссылке.
-  Защищённые роуты требуют валидации с помощью Bearer-токена в параметре header'а Authorization.
+Server based on Node.js and Express library. 3001 port. Records are stored in MongoDB. Uploaded images are accessed via direct link. Secure routes require validation with the Bearer token in the header's Authorization parameter.
   
-  Запуск
+  Запуск:
   
       npm run dev
 
-###### Роуты:
+###### Routes:
   
-  - GET "/cards" - публичный. Возвращает последнюю запись с "карточкой" из базы данных. Если база пуста, возвращается соотвествуюющее сообщение.
+  - GET "/cards" - public. Returns the last "card"-entry from the database. If the base is empty, the appropriate message is returned.
   
-    Пример ответа:
-    {
-      "descriptionFirst": "description",
-      "descriptionSecond": "description",
-      "file": "http://localhost:3001/file-1650018026407.jpg",
-    }
-	
-  - POST "/signup" - публичный. Принимает логин и пароль для регистрации новой учётной записи пользователя. Принимаемые значения валидируются на повторяющееся поле логина, количество и допустимость символов. Учётные записи сохраняются с базе данных, пароль записывается хэшем.
-  
-    Пример запроса:
-	{
-      "login": "sipus2006@yandex.ru",
-      "password": "qwerty12345"
-    }
-	
-  - POST "/signin" - публичный. Принимает логин и пароль для входа уже зарегистрированного пользователя. Принимаемые значения валидируются на повторяющееся поле логина, количество и допустимость символов. Возвращает Bearer-токен.
-	
-	Пример запроса:
-	{
-      "login": "sipus2006@yandex.ru",
-      "password": "qwerty12345"
-    }
-	
-    Пример ответа:
-	{
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjU5NDY3ZmY1MzFhMGI2YWZlZmMyMmQiLCJpYXQiOjE2NTAwMTc5NTUsImV4cCI6MTY1MDYyMjc1NX0.yNM8JnhNGqZZwjCmYmFGf9MIfg4RVk2SaTmLvfhSK04"
-    }
-	
-  - POST "/cards" - защищенный. Принимает объект FormData, содержащий два поля строк и файл. Изображение с измененным именем файла сохраняется в директорию "uploads". Сервер раздаёт изображения по прямому пути. Возвращает объект JSON с описанием и ссылкой на загруженный файл. Принимаемые значения валидируются на повторяющееся поле логина, количество и допустимость символов, размер и формат файла. Пример ответа:
+    Response example:
     
-	{
-      "descriptionFirst": "description",
-      "descriptionSecond": "description",
-      "file": "http://localhost:3001/file-1650018026407.jpg",
-    }
+        {
+          "descriptionFirst": "description",
+          "descriptionSecond": "description",
+          "file": "http://localhost:3001/file-1650018026407.jpg",
+        }
+	
+  - POST "/signup" - public. Takes login and password to register a new user account. Accepted values ​​are validated for a repeated login field, the number and validity of characters. Accounts are stored in the database, the password is hashed.
+  
+    Request example:
+    
+	    {
+          "login": "sipus2006@yandex.ru",
+          "password": "qwerty12345"
+        }
+	
+  - POST "/signin" - public. Takes the login and password for the login of an already registered user. Accepted values ​​are validated for a repeated login field, the number and validity of characters. Returns a Bearer token.
+	
+	Request example:
+	
+	    {
+          "login": "sipus2006@yandex.ru",
+          "password": "qwerty12345"
+        }
+	
+    Response example:
+    
+	    {
+	      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjU5NDY3ZmY1MzFhMGI2YWZlZmMyMmQiLCJpYXQiOjE2NTAwMTc5NTUsImV4cCI6MTY1MDYyMjc1NX0.yNM8JnhNGqZZwjCmYmFGf9MIfg4RVk2SaTmLvfhSK04"
+        }
+	
+  - POST "/cards" - private. Takes FormData object containing two fields with string and a file. The image with the changed file name is saved in the "uploads" directory. The server shares images by direct route. Returns a JSON object with a description and the uploaded file link. Taked values ​​are validated for a uniqueness login field, the number and validity of characters, the size and format of the file.
+  
+    Answer example:
+    
+	    {
+          "descriptionFirst": "description",
+          "descriptionSecond": "description",
+          "file": "http://localhost:3001/file-1650018026407.jpg",
+        }
 	
 ##### Frontend:
-  Страница на React. Защищённые роуты валидируются с помощью Bearer-токена в параметре header'а Authorization. Токен сохраняется в localStorage бразузера успешном заполнении формы входа.
+There is page on React. Protected routes are using the Bearer token in the header's Authorization parameter. The token is stored in the browser's localStorage if the login form are successful submit.
 
-  Запуск
+  Launch:
   
       npm run start
 
-###### Роуты:
+###### Routes:
   
-  - "/" - защищенный. Содержит форму для отправки "карточки" на сервер. Поля валидируются. При отсутсвии валидного токена в localStorage происходит редирект на страницу авторизации.
-  
-  - "/sign-in" - публичный. Содержит форму для входа. Поля валидируются.
-  
-  - "/sign-up" - публичный. Содержит форму регистрации. Поля валидируются. При успешном прохождении регистрации происходит редирект на страницу входа.
+ - "/" - protected. Displays the form for sending a "card" to the server. The fields are validated. If there is no valid token in localStorage, a redirect to the authorization page occurs.
+
+ - "/sign-in" - public. Displays the login form. The fields are validated.
+
+ - "/sign-up" - public. Displays the registration form. The fields are validated. Upon successful registration, you are redirected to the login page.
